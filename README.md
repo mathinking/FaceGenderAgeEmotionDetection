@@ -41,7 +41,9 @@ or choose which of the available models to use. For instance:
 ```matlab
 >> faceGenderAgeEmotionDetection(true,true,true)
 ```
-which runs gender, age and emotion detection. The demo uses binary gender detection, which may be consider inappropriate. Its use is not recommended in a public setting.
+which runs gender, age and emotion detection. The demo uses binary gender classification, which may be inappropriate. Please note that this network has its origins in research and is not enabled by default. I am fully respectful and supportive of non-binary people.
+
+**Note:** you may want to tweak the bounding box output, frame rate detection or other tunable parameters. You may do so by changing the inputs to DeepNeuralNetworkDetectorOptions in faceGenderAgeEmotionDetection (line 40).
 
 You may also speed up perfomance by generating MEX files using GPU Coder for each of the predict functions:
 1. Make sure that your computer is setup correctly:
