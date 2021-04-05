@@ -7,10 +7,11 @@ function faceGenderAgeEmotionDetection(detectGender, detectAge, detectEmotion)
 %   4. Predict emotion of detected faces
 
 clear DeepNeuralNetworkDetector;
-try
+
+if gpuDeviceCount > 1
     gpu = gpuDevice;
     reset(gpu)
-catch
+else
     warning('MATLAB:faceGenderAgeEmotionDetection:noGpuFound',...
         'No supported GPU device found. Performance may be impacted.')
 end
