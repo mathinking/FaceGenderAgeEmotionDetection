@@ -1,4 +1,4 @@
-% Copyright 2018-2020 The MathWorks, Inc.
+% Copyright 2018-2021 The MathWorks, Inc.
 function faceGenderAgeEmotionDetection(detectGender, detectAge, detectEmotion)
 % This demo showcases the use of different deep neural networks to:
 %   1. Detect faces
@@ -7,8 +7,13 @@ function faceGenderAgeEmotionDetection(detectGender, detectAge, detectEmotion)
 %   4. Predict emotion of detected faces
 
 clear DeepNeuralNetworkDetector;
-gpu = gpuDevice;
-reset(gpu)
+try
+    gpu = gpuDevice;
+    reset(gpu)
+catch
+    warning('MATLAB:faceGenderAgeEmotionDetection:noGpuFound',...
+        'No supported GPU device found. Performance may be impacted.')
+end
 
 if nargin < 1
     detectGender = false;
@@ -24,7 +29,11 @@ resolution = [1920,1080];
 
 % Connect to webcam
 wcam = webcam(1);
-wcam.Resolution = num2str(resolution(1))+"x"+num2str(resolution(2));
+try % Try Full HD resolution if available
+    wcam.Resolution = num2str(resolution(1))+"x"+num2str(resolution(2));
+catch
+    fprintf(1,'Full HD not available. Using %s resolution.\n',wcam.Resolution)
+end
 player = vision.DeployableVideoPlayer("Size","Full-screen");
 
 options = DeepNeuralNetworkDetectorOptions("BackgroundColor",[0,150,0],... % Background color for the text and the box
